@@ -39,6 +39,7 @@ public class Company {
      */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "companyId", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonIgnore
     private Set<Coupon> coupons;
 
     /**

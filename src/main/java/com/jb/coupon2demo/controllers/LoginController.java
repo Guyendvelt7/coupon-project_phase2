@@ -1,6 +1,6 @@
 package com.jb.coupon2demo.controllers;
 
-import com.jb.coupon2demo.beans.ClientType;
+import com.jb.coupon2demo.beans.UserDetails;
 import com.jb.coupon2demo.exceptions.CustomExceptions;
 import com.jb.coupon2demo.service.LoginService;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +25,14 @@ public class LoginController {
     /**
      * this HTTP request method is for sending information from the client to the server in a secured way
      * the input is not saved in browser history, can't be booked marked or cached
-     * @param email client email
-     * @param pass client password
-     * @param clientType Administrator, company or customer
+     * @param userDetails uses the entity with the required fields
      * @return a response to the client accepting the request and also produces a security key (token)
      * see {@link com.jb.coupon2demo.security.JWTutil} for further explanation
      * @throws CustomExceptions in case there is an error produced by wrong data entered by the client
      */
-    @PostMapping("/login/{email}/{pass}/{clientType}")
-    public ResponseEntity<?> login(@PathVariable String email, @PathVariable String pass, @RequestBody ClientType clientType) throws CustomExceptions {
-        return new ResponseEntity<>(loginService.login(email,pass,clientType),HttpStatus.ACCEPTED);
+
+    @PostMapping("/login/{userDetails}")
+    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) throws CustomExceptions {
+        return new ResponseEntity<>(loginService.login(userDetails.getEmail(), userDetails.getPass(), userDetails.getClientType()),HttpStatus.ACCEPTED);
     }
 }

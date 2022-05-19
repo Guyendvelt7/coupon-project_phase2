@@ -1,5 +1,6 @@
 package com.jb.coupon2demo.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
@@ -41,6 +42,7 @@ public class Coupon {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "customer_vs_coupons", joinColumns = @JoinColumn(name = "coupon_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
     @ToString.Exclude
+    @JsonIgnore
     private Set<Customer> customers;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
