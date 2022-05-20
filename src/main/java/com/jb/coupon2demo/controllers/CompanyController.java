@@ -30,7 +30,7 @@ public class CompanyController {
      * @param token is for security, this string is given by the server when login in.
      *              for further information about token please see {@link JWTutil}
      * @return new token for more company actions and request status response
-     * @throws CustomExceptions 1: in case the company is not found in database.
+     * @throws CustomExceptions 1: in case the company id is not found in database.
      * this can happen if the requesting company did not enter the system through the login process
      * 2: if already exist a similar coupon in the company's database
      */

@@ -8,6 +8,11 @@ import com.jb.coupon2demo.security.JWTutil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Yoav Hacmon, Guy Endvelt, Niv Pablo and Gery Glazer
+ * 05.2022
+ */
+
 @Service
 @RequiredArgsConstructor
 public class LoginService {
@@ -15,6 +20,14 @@ public class LoginService {
     private final CompanyService companyService;
     private final CustomerService customerService;
     private final JWTutil jwTutil;
+
+    /**
+     * With the help of this function you can connect to the server according to the type of client.
+     * @param email client email input
+     * @param password client password input
+     * @param clientType client type input
+     * @throws CustomExceptions if one of the params is wrong.
+     */
 
     public String login (String email, String password, ClientType clientType) throws CustomExceptions {
         ClientService clientService = null;

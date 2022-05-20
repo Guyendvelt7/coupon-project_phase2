@@ -7,6 +7,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Yoav Hacmon, Guy Endvelt, Niv Pablo and Gery Glazer
+ * 05.2022
+ */
+
 @Component
 @EnableScheduling
 public class CouponExpirationDailyJob {
@@ -29,7 +34,9 @@ public class CouponExpirationDailyJob {
 //            }
 //        }, 86400000);
 //    }
-
+    /**
+     * this function will run every day at 02:00 AM and erase every coupon that expired on the current date.
+     */
     //TODO: SINGLETON
     @Scheduled(cron = "0 0 2 * * ?")
     //@Scheduled(fixedRate = 86_400_000)
