@@ -13,6 +13,8 @@ import com.jb.coupon2demo.thread.CouponExpirationDailyJob;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
  * 05.2022
  */
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Order(1)
 /**

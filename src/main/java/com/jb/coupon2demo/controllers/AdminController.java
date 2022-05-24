@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 /**
  * @author Yoav Hacmon, Guy Endvelt, Niv Pablo and Gery Glazer
  * 05.2022
@@ -26,40 +27,47 @@ public class AdminController {
 
     /**
      * this method is for adding a new company in to the database
+     *
      * @param company new company information
-     * @param token is for security, this string is given by the server when login in.
-     *              for further information about token please see {@link JWTutil}
+     * @param token   is for security, this string is given by the server when login in.
+     *                for further information about token please see {@link JWTutil}
      * @return new token for more admin actions and request status response
      * @throws CustomExceptions in case the server found a company with similar data
      */
     @PostMapping("/addCompany")
-    public ResponseEntity<?> addCompany (@RequestBody Company company, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+    public ResponseEntity<?> addCompany(@RequestBody Company company, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
-        adminService.addCompany (company);
-        return new ResponseEntity<>(newToken, HttpStatus.OK);
+        adminService.addCompany(company);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("company " + company.getName() + " added");
     }
 
     /**
      * this method is for updating a company information
+     *
      * @param company to identify the company to update
-     * @param token is for security, this string is given by the server when login in.
-     *              for further information about token please see {@link JWTutil}
+     * @param token   is for security, this string is given by the server when login in.
+     *                for further information about token please see {@link JWTutil}
      * @return new token for more admin actions and request status response
      * @throws CustomExceptions if the field to update is the company's name
      */
     @PutMapping("/updateCompany")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateCompany (@RequestBody Company company, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+    public ResponseEntity<?> updateCompany(@RequestBody Company company, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         adminService.updateCompany(company);
-        return  new ResponseEntity<>(newToken, HttpStatus.OK);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("company " + company.getName() + " updated");
     }
 
     /**
      * this method is for deleting a company from the database
+     *
      * @param companyId to identify the company to delete
-     * @param token is for security, this string is given by the server when login in.
-     *              for further information about token please see {@link JWTutil}
+     * @param token     is for security, this string is given by the server when login in.
+     *                  for further information about token please see {@link JWTutil}
      * @return new token for more admin actions and request status response
      * @throws CustomExceptions in case the company is not found in database
      */
@@ -68,18 +76,21 @@ public class AdminController {
             @PathVariable int companyId, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         adminService.deleteCompany(companyId);
-        return new ResponseEntity<>(newToken, HttpStatus.OK);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("company deleted");
     }
 
     /**
      * this HTTP method is for retrieving all companies listed in the server database
+     *
      * @param token is for security, this string is given by the server when login in.
      *              for further information about token please see {@link JWTutil}
-     * @return  new token for more admin actions, the list of companies and request status response
+     * @return new token for more admin actions, the list of companies and request status response
      * @throws CustomExceptions if there are no companies in database
      */
     @GetMapping("/allCompanies")
-    public ResponseEntity<?> getAllCompanies (@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+    public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         return ResponseEntity.ok()
                 .header("Authorization", newToken)
@@ -89,14 +100,15 @@ public class AdminController {
 
     /**
      * this HTTP method is for retrieving one company from the server database
-     * @param id to identify the company requested
+     *
+     * @param id    to identify the company requested
      * @param token is for security, this string is given by the server when login in.
      *              for further information about token please see {@link JWTutil}
      * @return new token for more admin actions, the details of the requested company and request status response
      * @throws CustomExceptions in case the server did not found the requested company in database
      */
     @GetMapping("/oneCompany/{id}")
-    public ResponseEntity<?> getOneCompany (@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+    public ResponseEntity<?> getOneCompany(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         return ResponseEntity.ok()
                 .header("Authorization", newToken)
@@ -106,37 +118,44 @@ public class AdminController {
 
     /**
      * this method is for adding a new customer in to the database
+     *
      * @param customer new customer information
-     * @param token is for security, this string is given by the server when login in.
-     *              for further information about token please see {@link JWTutil}
+     * @param token    is for security, this string is given by the server when login in.
+     *                 for further information about token please see {@link JWTutil}
      * @return new token for more admin actions and request status response
      * @throws CustomExceptions in case the server found a customer with similar data
      */
     @PostMapping("/addCustomer")
-    public ResponseEntity<?> addCustomer (@RequestBody Customer customer, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+    public ResponseEntity<?> addCustomer(@RequestBody Customer customer, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         adminService.addCustomer(customer);
-        return new ResponseEntity<>(newToken, HttpStatus.OK);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("customer " + customer.getFirstName() + " " + customer.getLastName() + " added");
     }
 
     /**
      * this method is for updating a customer information
+     *
      * @param customer to identify the customer to update
-     * @param token is for security, this string is given by the server when login in.
-     *              for further information about token please see {@link JWTutil}
+     * @param token    is for security, this string is given by the server when login in.
+     *                 for further information about token please see {@link JWTutil}
      * @return new token for more admin actions and request status response
      * @throws CustomExceptions if the customer to update is not found in database
      */
     @PutMapping("/updateCustomer")
-    public ResponseEntity<?> updateCustomer (@RequestBody Customer customer, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         adminService.updateCustomer(customer);
-        return new ResponseEntity<>(newToken, HttpStatus.OK);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("customer " + customer.getFirstName() + " " + customer.getLastName() + " updated");
     }
 
     /**
      * this HTTP method is for retrieving one customer from the server database
-     * @param id to identify the customer requested
+     *
+     * @param id    to identify the customer requested
      * @param token is for security, this string is given by the server when login in.
      *              for further information about token please see {@link JWTutil}
      * @return new token for more admin actions, the details of the requested customer and request status response
@@ -153,13 +172,14 @@ public class AdminController {
 
     /**
      * this HTTP method is for retrieving all customer listed in the server database
+     *
      * @param token is for security, this string is given by the server when login in.
      *              for further information about token please see {@link JWTutil}
-     * @return  new token for more admin actions, the list of customers and request status response
+     * @return new token for more admin actions, the list of customers and request status response
      * @throws CustomExceptions if there are no customers in database
      */
     @GetMapping("/allCustomers")
-    public ResponseEntity<?> getAllCustomers (@RequestHeader (name = "Authorization") String token){
+    public ResponseEntity<?> getAllCustomers(@RequestHeader(name = "Authorization") String token) {
         String newToken = jwTutil.checkUser(token);
         return ResponseEntity.ok()
                 .header("Authorization", newToken)
@@ -168,17 +188,20 @@ public class AdminController {
     }
 
     /**
-     *  this method is for deleting a customer from the database
-     * @param id to identify the customer requested to delete
+     * this method is for deleting a customer from the database
+     *
+     * @param id    to identify the customer requested to delete
      * @param token is for security, this string is given by the server when login in.
      *              for further information about token please see {@link JWTutil}
      * @return new token for more admin actions and request status response
      * @throws CustomExceptions in case the server did not found the requested customer in database
      */
     @DeleteMapping("/deleteCustomer/{id}")
-    public ResponseEntity<?> deleteCustomer (@PathVariable int id, @RequestHeader (name = "Authorization") String token) throws CustomExceptions {
+    public ResponseEntity<?> deleteCustomer(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         adminService.deleteCustomer(id);
-        return new ResponseEntity<>(newToken, HttpStatus.OK);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("customer deleted");
     }
 }

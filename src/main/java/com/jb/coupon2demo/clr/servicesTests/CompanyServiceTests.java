@@ -10,16 +10,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Set;
+
 /**
  * @author Yoav Hacmon, Guy Endvelt, Niv Pablo and Gery Glazer
  * 05.2022
  */
 
-//@Component
-@Order(7)
+@Component
+@Order(3)
 @RequiredArgsConstructor
 /**
  * this class is used for the implementation and testing of all company service(client side) methods and Hibernate queries
@@ -33,7 +35,7 @@ public class CompanyServiceTests implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Company company = companyRepo.getByName("samsung");
+        Company company = companyRepo.getByName("oneplus");
 
         //company login
         companyService.login(company.getEmail(), company.getPassword());
@@ -43,8 +45,8 @@ public class CompanyServiceTests implements CommandLineRunner {
                 Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(30)), 2000, 50, ""));
 
         //update coupon
-        Coupon coupon =  couponRepo.findByTitleAndCompanyId("4ktv" , company.getId());
-        coupon.setAmount(1500);
+        Coupon coupon = couponRepo.findByTitleAndCompanyId("batteries", company.getId());
+        coupon.setAmount(10);
         companyService.updateCoupon(coupon);
         //delete coupon
         companyService.deleteCoupon(coupon.getId());

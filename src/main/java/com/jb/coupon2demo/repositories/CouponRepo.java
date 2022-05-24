@@ -27,16 +27,4 @@ public interface CouponRepo extends JpaRepository<Coupon, Integer> {
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM `coupons_project2demo`.`coupons` WHERE (end_Date) < curDate()", nativeQuery = true)
     void deleteCouponsByDate();
-
-    /**
-     * find if coupon specific is purchased by specific customer by searching in the table "customer_vs_coupon".
-     * @param coupon_id the id of specific coupon
-     * @param customer_id the id of the specific customer
-     * @return list of coupons that meet these parameters, if the list is empty - this coupon didn't purchase by that customer
-     */
-    @Modifying(clearAutomatically = true)
-    @Query(value = "SELECT * FROM `customer_vs_coupons` WHERE coupon_id=?1 AND customer_id=?2", nativeQuery = true)
-    List<Coupon> isCouponPurchased(int coupon_id, int customer_id);
-    //todo: this query is duplicated in customer repo, here the only usage is in tests
-
 }

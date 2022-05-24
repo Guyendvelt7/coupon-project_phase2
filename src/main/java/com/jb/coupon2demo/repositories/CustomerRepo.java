@@ -51,15 +51,6 @@ public interface CustomerRepo extends JpaRepository<Customer, Integer> {
     List<Coupon> isCouponPurchased(int customer_id, int coupon_id);
 
     /**
-     * find one specific customer's coupons
-     * @param custId the customer id
-     * @return the coupon that customer had purchased
-     */
-    @Query("SELECT coup FROM Coupon coup WHERE coup.id IN " +
-            "(SELECT coup.id FROM coup.customers cust WHERE cust.id = ?1 and coup.id = ?2)")
-    Coupon findCustomerCoupon(int custId, int cpnId);
-
-    /**
      * find all customer's coupons
      * @param custId the customer id
      * @return the list of coupons that customer had purchased

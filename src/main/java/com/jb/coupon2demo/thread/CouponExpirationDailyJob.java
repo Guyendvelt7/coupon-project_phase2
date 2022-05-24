@@ -37,9 +37,8 @@ public class CouponExpirationDailyJob {
     /**
      * this function will run every day at 02:00 AM and erase every coupon that expired on the current date.
      */
-    //TODO: SINGLETON
+    //TODO: SINGLETON, double check, synchronisation?
     @Scheduled(cron = "0 0 2 * * ?")
-    //@Scheduled(fixedRate = 86_400_000)
     public void deleteByDate(){
         System.out.println("im start");
         couponRepo.deleteCouponsByDate();

@@ -30,15 +30,13 @@ public class CompanyService extends ClientService{
      */
     @Override
     public boolean login(String email, String password) throws CustomExceptions {
-        Integer id = companyRepo.findByEmailAndPassword(email, password).getId();
-        if (id == null) {
-            throw new CustomExceptions(OptionalExceptionMessages.COMPANY_NOT_FOUND);
-        }
-        companyId = id;
-        if (companyId > 0) {
+        boolean connect = companyRepo.existsByEmailAndPassword(email, password);
+        if(connect) {
+            Integer id = companyRepo.findByEmailAndPassword(email, password).getId();
+            companyId = id;
             System.out.println("Company connected.");
             return true;
-        } else {
+        }else{
             throw new CustomExceptions(OptionalExceptionMessages.WRONG_EMAIL_OR_PASSWORD);
         }
     }

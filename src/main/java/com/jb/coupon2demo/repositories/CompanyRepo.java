@@ -23,7 +23,7 @@ public interface CompanyRepo extends JpaRepository<Company, Integer> {
     boolean existsByEmailOrName(String email,String name);
     boolean existsByEmail(String email);
     boolean existsByName(String name);
-
+    //todo: if a func is used only in tests, is it relevant?
     //SQL queries - 10%
 
     /**

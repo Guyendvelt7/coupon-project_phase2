@@ -10,13 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
 /**
  * @author Yoav Hacmon, Guy Endvelt, Niv Pablo and Gery Glazer
  * 05.2022
  */
 
-//@Component
-@Order(5)
+@Component
+@Order(2)
 @RequiredArgsConstructor
 /**
  * this class is used for the implementation and testing of all admin service(administrator)(client side) methods and Hibernate queries
@@ -36,7 +37,7 @@ public class AdminTests implements CommandLineRunner {
         //add new company
         adminService.addCompany(new Company(0, "oneplus", "aone@plusone.com", "1+1", null));
         //update company
-        //get one company test
+        // and get one company test
         try {
             Company company = adminService.getOneCompany(companyRepo.findByName("oneplus").getId());
             company.setEmail("one@plusone.com");
@@ -49,17 +50,18 @@ public class AdminTests implements CommandLineRunner {
         System.out.println(adminService.getAllCompanies());
         //delete company
         adminService.deleteCompany(adminService.getOneCompany(companyRepo.findByName("oneplus").getId()).getId());
+        adminService.addCompany(new Company(0, "oneplus", "aone@plusone.com", "1+1", null));
         //
         //add customer
         adminService.addCustomer(new Customer(
                 0, "guy", "endvelt", "guy@gmail.com", "guyguy", null));
 
         //update customer
-        //get one customer
+        // and get one customer
         try {
-        Customer customer = adminService.getOneCustomer(customerRepo.findByEmail("guy@gmail.com").getId());
-        customer.setPassword("guyendvelt");
-        adminService.updateCustomer(customer);
+            Customer customer = adminService.getOneCustomer(customerRepo.findByEmail("guy@gmail.com").getId());
+            customer.setPassword("guyendvelt");
+            adminService.updateCustomer(customer);
         } catch (CustomExceptions customExceptions) {
             System.out.println(customExceptions.getMessage());
         }
@@ -68,6 +70,7 @@ public class AdminTests implements CommandLineRunner {
         //delete customer
         adminService.deleteCustomer(adminService.getOneCustomer(customerRepo.findByEmail("guy@gmail.com").getId()).getId());
         System.out.println(adminService.getAllCustomers());
+        adminService.addCustomer(new Customer(
+                0, "guy", "endvelt", "guy@gmail.com", "guyguy", null));
     }
-
 }

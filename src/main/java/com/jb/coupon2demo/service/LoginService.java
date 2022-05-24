@@ -52,5 +52,6 @@ public class LoginService {
             UserDetails userDetails = new UserDetails(clientType,email,password);
             return jwTutil.generateToken(userDetails);
         }
+        //TODO: SINGLETON, double check, synchronisation?
     }
 }

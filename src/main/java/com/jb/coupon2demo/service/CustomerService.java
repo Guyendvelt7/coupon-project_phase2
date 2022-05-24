@@ -25,12 +25,10 @@ public class CustomerService extends ClientService{
      */
     @Override
     public boolean login(String email, String password) throws CustomExceptions {
-        Integer id = customerRepo.findByEmailAndPassword(email, password).getId();
-        if (id == null) {
-            throw new CustomExceptions(OptionalExceptionMessages.CUSTOMER_NOT_FOUND);
-        }
-        customerId = id;
-        if (customerId > 0) {
+        boolean connect = customerRepo.existsByEmailAndPassword(email, password);
+        if(connect) {
+            Integer id = customerRepo.findByEmailAndPassword(email, password).getId();
+            customerId = id;
             System.out.println("Customer connected.");
             return true;
         } else {

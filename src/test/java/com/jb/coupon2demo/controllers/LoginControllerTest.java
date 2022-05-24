@@ -9,16 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(LoginController.class)
 @RequiredArgsConstructor
 class LoginControllerTest {
-    private MockMvc mockMvc;
+
     @MockBean
     private LoginService loginService;
+    @MockBean
+    private LoginController loginController;
     private UserDetails userDetails = new UserDetails(ClientType.ADMIN, "admin@admin.com", "ADMIN");
 
     @Test
@@ -27,4 +28,13 @@ class LoginControllerTest {
                 loginService.login(userDetails.getEmail(), userDetails.getPass(), userDetails.getClientType()))
                 .thenReturn(ResponseEntity.accepted().toString());
     }
+
+//    @Test
+//    void loginController() throws CustomExceptions {
+//        when(
+//                loginController.login(userDetails)
+//                        .getStatusCode()
+//        ).thenReturn(HttpStatus.valueOf("ok"));
+//    }
+
 }
