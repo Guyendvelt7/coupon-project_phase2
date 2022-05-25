@@ -38,7 +38,9 @@ public class CompanyController {
     public ResponseEntity<?> addCoupon(@RequestBody Coupon coupon,@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         companyService.addCoupon(coupon);
-        return new ResponseEntity<>(newToken,HttpStatus.ACCEPTED);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("coupon " + coupon.getTitle() + " added");
     }
 
     /**
@@ -55,7 +57,9 @@ public class CompanyController {
     public ResponseEntity<?> updateCoupon(@RequestBody Coupon coupon,@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         companyService.updateCoupon(coupon);
-        return new ResponseEntity<>(newToken,HttpStatus.ACCEPTED);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("coupon " + coupon.getTitle() + " updated");
     }
 
     /**
@@ -70,7 +74,9 @@ public class CompanyController {
     public ResponseEntity<?> deleteCoupon(@PathVariable int couponId,@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         companyService.deleteCoupon(couponId);
-        return new ResponseEntity<>(newToken,HttpStatus.ACCEPTED);
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .body("coupon deleted");
     }
 
     /**
