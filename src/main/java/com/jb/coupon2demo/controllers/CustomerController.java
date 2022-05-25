@@ -35,7 +35,9 @@ public class CustomerController {
     public ResponseEntity<?> purchaseCoupon(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
         String newToken = jwTutil.checkUser(token);
         customerService.purchaseCoupon(id);
-        return new ResponseEntity<>(newToken,HttpStatus.ACCEPTED);
+        return ResponseEntity.ok()
+                .header("Authorization",newToken)
+                .body("coupon purchased successfully");
     }
 
     /**
