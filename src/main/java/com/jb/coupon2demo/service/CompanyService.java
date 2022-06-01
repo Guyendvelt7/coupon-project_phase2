@@ -77,9 +77,11 @@ public class CompanyService extends ClientService{
         if (couponRepo.findById(coupon.getId()).isEmpty()) {
             throw new CustomExceptions(OptionalExceptionMessages.COUPON_NOT_FOUND);
         }
-        if (coupon.getCompanyId()!=this.companyId){
-            throw new CustomExceptions(OptionalExceptionMessages.CANT_CHANGE_COMPANY_ID);
+
+        if(couponRepo.findById(coupon.getId()).get().getCompanyId()!=companyId){
+            throw new CustomExceptions(OptionalExceptionMessages.DONT_HAVE_PERMISSION);
         }
+
         validEndDate(coupon.getEndDate(), coupon);
         coupon.setCompanyId(this.companyId);
         couponRepo.save(coupon);
@@ -96,6 +98,10 @@ public class CompanyService extends ClientService{
         if (couponRepo.findById(couponId).isEmpty()) {
             throw new CustomExceptions(OptionalExceptionMessages.COUPON_NOT_FOUND);
         }
+        if(couponRepo.findById(couponId).get().getCompanyId()!= companyId){
+            throw new CustomExceptions(OptionalExceptionMessages.DONT_HAVE_PERMISSION);
+        }
+
         couponRepo.deleteById(couponId);
         System.out.println("Coupon deleted successfully");
     }
@@ -120,6 +126,11 @@ public class CompanyService extends ClientService{
         if (couponRepo.findById(couponId).isEmpty()) {
             throw new CustomExceptions(OptionalExceptionMessages.COUPON_NOT_FOUND);
         }
+
+        if(couponRepo.findById(couponId).get().getCompanyId()!= companyId){
+            throw new CustomExceptions(OptionalExceptionMessages.DONT_HAVE_PERMISSION);
+        }
+
         return couponRepo.findById(couponId).get();
     }
 

@@ -24,7 +24,8 @@ public enum OptionalExceptionMessages {
     START_DATE_EXCEPTION("Invalid start date"),
     END_DATE_EXCEPTION("Invalid end date, it must be older than the start date."),
     CANT_CHANGE_COMPANY_ID("can not change company id!!"),
-    EMPTY_LIST("No data found in data base");
+    EMPTY_LIST("No data found in data base"),
+    DONT_HAVE_PERMISSION("you dont have this permission!");
 
     private String message;
 

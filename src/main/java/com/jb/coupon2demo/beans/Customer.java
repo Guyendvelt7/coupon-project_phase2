@@ -27,7 +27,7 @@ import java.util.Set;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
+    //@JsonIgnore
     private int id;
     @Column(nullable = false, length = 40)
     private String firstName;
@@ -48,6 +48,7 @@ public class Customer {
      */
     @ManyToMany( fetch = FetchType.EAGER, mappedBy = "customers", cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.JOIN)
+    @JsonIgnore
     private Set<Coupon> coupons;
 
     /**

@@ -1,11 +1,11 @@
 package com.jb.coupon2demo.controllers;
 
 import com.jb.coupon2demo.beans.Category;
+import com.jb.coupon2demo.beans.ClientType;
 import com.jb.coupon2demo.exceptions.CustomExceptions;
 import com.jb.coupon2demo.security.JWTutil;
 import com.jb.coupon2demo.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 /**
@@ -33,7 +33,7 @@ public class CustomerController {
      */
     @PutMapping("/purchaseCoupon/{id}")
     public ResponseEntity<?> purchaseCoupon(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.CUSTOMER);
         customerService.purchaseCoupon(id);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
@@ -47,8 +47,8 @@ public class CustomerController {
      * @return  new token for more customer actions, the list of coupons requested and request status response
      */
     @GetMapping("/getAllCoupons")
-    public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token)  {
-        String newToken = jwTutil.checkUser(token);
+    public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+        String newToken = jwTutil.checkUser(token, ClientType.CUSTOMER);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(customerService.getAllCustomerCoupons());
@@ -64,7 +64,7 @@ public class CustomerController {
      */
     @GetMapping("/getCouponsByCategory/{category}")
     public ResponseEntity<?> getOneCouponByCategory(@RequestParam Category category, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.CUSTOMER);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(customerService.getCustomerCoupons(category));
@@ -82,7 +82,7 @@ public class CustomerController {
      */
     @GetMapping("/getCouponsByMaxPrice/{maxPrice}")
     public ResponseEntity<?> getCouponsByMaxPrice(@PathVariable int maxPrice, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.CUSTOMER);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(customerService.getCustomerCoupons(maxPrice));
@@ -99,7 +99,7 @@ public class CustomerController {
      */
     @GetMapping("/customerDetails")
     public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.CUSTOMER);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(customerService.getCustomerDetails());

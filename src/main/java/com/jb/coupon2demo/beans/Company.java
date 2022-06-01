@@ -25,7 +25,7 @@ import java.util.Set;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
+    //@JsonIgnore
     private int id;
     @Column(unique = true, nullable = false, length = 40)
     private String name;

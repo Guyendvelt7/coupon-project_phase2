@@ -31,7 +31,7 @@ public class LoginController {
      * @throws CustomExceptions in case there is an error produced by wrong data entered by the client
      */
 
-    @PostMapping("login/{userDetails}")
+    @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails) throws CustomExceptions {
         String token = loginService.login(userDetails.getEmail(), userDetails.getPass(), userDetails.getClientType());
         return ResponseEntity.ok()

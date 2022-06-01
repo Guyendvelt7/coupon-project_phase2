@@ -56,6 +56,9 @@ public class AdminService extends  ClientService{
      * @throws CustomExceptions in case the data to be updated is the company name
      */
     public void updateCompany(Company company) throws CustomExceptions {
+        if(!companyRepo.existsById(company.getId())) {
+            throw new CustomExceptions(OptionalExceptionMessages.COMPANY_NOT_FOUND);
+        }
         if (!Objects.equals(company.getName(), companyRepo.findById(company.getId()).get().getName())) {
             throw new CustomExceptions(OptionalExceptionMessages.CANT_UPDATE_COMPANY_NAME);
         }

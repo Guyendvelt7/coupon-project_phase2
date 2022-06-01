@@ -1,6 +1,7 @@
 package com.jb.coupon2demo.controllers;
 
 import com.jb.coupon2demo.beans.Category;
+import com.jb.coupon2demo.beans.ClientType;
 import com.jb.coupon2demo.beans.Coupon;
 import com.jb.coupon2demo.exceptions.CustomExceptions;
 import com.jb.coupon2demo.security.JWTutil;
@@ -36,7 +37,7 @@ public class CompanyController {
      */
     @PutMapping("/addCoupon")
     public ResponseEntity<?> addCoupon(@RequestBody Coupon coupon,@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         companyService.addCoupon(coupon);
         return ResponseEntity.ok()
                 .header("Authorization", token)
@@ -55,7 +56,7 @@ public class CompanyController {
      */
     @PutMapping("/updateCoupon")
     public ResponseEntity<?> updateCoupon(@RequestBody Coupon coupon,@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         companyService.updateCoupon(coupon);
         return ResponseEntity.ok()
                 .header("Authorization", token)
@@ -72,7 +73,7 @@ public class CompanyController {
      */
     @DeleteMapping("/delete/{couponId}")
     public ResponseEntity<?> deleteCoupon(@PathVariable int couponId,@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         companyService.deleteCoupon(couponId);
         return ResponseEntity.ok()
                 .header("Authorization", token)
@@ -88,7 +89,7 @@ public class CompanyController {
      */
     @GetMapping("/getAllCoupons")
     public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(companyService.getAllCompanyCoupons());
@@ -104,7 +105,7 @@ public class CompanyController {
      */
     @GetMapping("/getOneCoupon/{couponId}")
     public ResponseEntity<?> getOneCoupon(@PathVariable int couponId, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(companyService.getOneCoupon(couponId));
@@ -120,7 +121,7 @@ public class CompanyController {
      */
     @GetMapping("/getCouponsByCategory/{category}")
     public ResponseEntity<?> getOneCouponByCategory(@RequestParam Category category, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(companyService.getCompanyCouponsByCategory(category));
@@ -138,7 +139,7 @@ public class CompanyController {
      */
     @GetMapping("/getCouponsByMaxPrice/{maxPrice}")
     public ResponseEntity<?> getCouponsByMaxPrice(@PathVariable int maxPrice, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(companyService.getCompanyCouponByMaxPrice(maxPrice));
@@ -155,7 +156,7 @@ public class CompanyController {
      */
     @GetMapping("/companyDetails")
     public ResponseEntity<?> getCompanyDetails(@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.COMPANY);
         return ResponseEntity.ok()
                 .header("Authorization",newToken)
                 .body(companyService.getCompanyDetails());

@@ -1,8 +1,10 @@
 package com.jb.coupon2demo.controllers;
 
+import com.jb.coupon2demo.beans.ClientType;
 import com.jb.coupon2demo.beans.Company;
 import com.jb.coupon2demo.beans.Customer;
 import com.jb.coupon2demo.exceptions.CustomExceptions;
+import com.jb.coupon2demo.exceptions.OptionalExceptionMessages;
 import com.jb.coupon2demo.security.JWTutil;
 import com.jb.coupon2demo.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +38,7 @@ public class AdminController {
      */
     @PostMapping("/addCompany")
     public ResponseEntity<?> addCompany(@RequestBody Company company, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         adminService.addCompany(company);
         return ResponseEntity.ok()
                 .header("Authorization", token)
@@ -55,7 +57,7 @@ public class AdminController {
     @PutMapping("/updateCompany")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> updateCompany(@RequestBody Company company, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         adminService.updateCompany(company);
         return ResponseEntity.ok()
                 .header("Authorization", token)
@@ -65,17 +67,16 @@ public class AdminController {
     /**
      * this method is for deleting a company from the database
      *
-     * @param companyId to identify the company to delete
+     * @param id to identify the company to delete
      * @param token     is for security, this string is given by the server when login in.
      *                  for further information about token please see {@link JWTutil}
      * @return new token for more admin actions and request status response
      * @throws CustomExceptions in case the company is not found in database
      */
-    @DeleteMapping("/deleteCompany/{companyId}")
-    public ResponseEntity<?> deleteCompany(
-            @PathVariable int companyId, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
-        adminService.deleteCompany(companyId);
+    @DeleteMapping("/deleteCompany/{id}")
+    public ResponseEntity<?> deleteCompany(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
+        adminService.deleteCompany(id);
         return ResponseEntity.ok()
                 .header("Authorization", token)
                 .body("company deleted");
@@ -91,7 +92,7 @@ public class AdminController {
      */
     @GetMapping("/allCompanies")
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         return ResponseEntity.ok()
                 .header("Authorization", newToken)
                 .body(adminService.getAllCompanies()
@@ -109,7 +110,7 @@ public class AdminController {
      */
     @GetMapping("/oneCompany/{id}")
     public ResponseEntity<?> getOneCompany(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         return ResponseEntity.ok()
                 .header("Authorization", newToken)
                 .body(adminService.getOneCompany(id)
@@ -127,7 +128,7 @@ public class AdminController {
      */
     @PostMapping("/addCustomer")
     public ResponseEntity<?> addCustomer(@RequestBody Customer customer, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         adminService.addCustomer(customer);
         return ResponseEntity.ok()
                 .header("Authorization", token)
@@ -145,7 +146,7 @@ public class AdminController {
      */
     @PutMapping("/updateCustomer")
     public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         adminService.updateCustomer(customer);
         return ResponseEntity.ok()
                 .header("Authorization", token)
@@ -163,7 +164,7 @@ public class AdminController {
      */
     @GetMapping("/oneCustomer/{id}")
     public ResponseEntity<?> getOneCustomer(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         return ResponseEntity.ok()
                 .header("Authorization", newToken)
                 .body(adminService.getOneCustomer(id)
@@ -179,8 +180,8 @@ public class AdminController {
      * @throws CustomExceptions if there are no customers in database
      */
     @GetMapping("/allCustomers")
-    public ResponseEntity<?> getAllCustomers(@RequestHeader(name = "Authorization") String token) {
-        String newToken = jwTutil.checkUser(token);
+    public ResponseEntity<?> getAllCustomers(@RequestHeader(name = "Authorization") String token) throws CustomExceptions {
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         return ResponseEntity.ok()
                 .header("Authorization", newToken)
                 .body(adminService.getAllCustomers()
@@ -198,7 +199,7 @@ public class AdminController {
      */
     @DeleteMapping("/deleteCustomer/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable int id, @RequestHeader(name = "Authorization") String token) throws CustomExceptions {
-        String newToken = jwTutil.checkUser(token);
+        String newToken = jwTutil.checkUser(token, ClientType.ADMIN);
         adminService.deleteCustomer(id);
         return ResponseEntity.ok()
                 .header("Authorization", token)
